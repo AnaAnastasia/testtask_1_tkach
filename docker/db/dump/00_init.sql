@@ -69,3 +69,24 @@ CREATE TABLE `hotel_agreements` (
  FOREIGN KEY (`company_id`) REFERENCES companies(`id`),
  FOREIGN KEY (`hotel_id`) REFERENCES hotels(`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COMMENT='Договоры между компанией и отелем';
+
+CREATE TABLE `rules` (
+                         `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                         `agency_id` INT UNSIGNED NOT NULL COMMENT 'Агентство, для которого правило',
+                         `name` VARCHAR(255) NOT NULL COMMENT 'Название правила',
+                         `message` TEXT NOT NULL COMMENT 'Сообщение для менеджера при срабатывании',
+                         `is_active` TINYINT(1) NOT NULL DEFAULT 1 COMMENT 'Активность правила',
+                         PRIMARY KEY (`id`),
+                         FOREIGN KEY (`agency_id`) REFERENCES agencies(`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Правила проверки отелей';
+
+CREATE TABLE `rule_conditions` (
+                                   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                   `rule_id` INT UNSIGNED NOT NULL COMMENT 'ID правила',
+                                   `field` VARCHAR(100) NOT NULL COMMENT 'Имя проверяемого поля',
+                                   `operator` VARCHAR(10) NOT NULL COMMENT 'Оператор сравнения (=, !=, <, >)',
+                                   `value` VARCHAR(255) NOT NULL COMMENT 'Значение для сравнения',
+                                   PRIMARY KEY (`id`),
+                                   FOREIGN KEY (`rule_id`) REFERENCES rules(`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Условия правил';
+

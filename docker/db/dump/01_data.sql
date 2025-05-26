@@ -63,3 +63,9 @@ INSERT INTO `agency_hotel_options` (`id`,`hotel_id`,`agency_id`,`percent`,`is_bl
 (18,8,2,12,0,0,0),
 (19,9,2,10,1,0,0),
 (20,10,2,14,1,0,0);
+
+INSERT INTO rules (agency_id, name, message, is_active)
+VALUES (1, 'Чёрный список', 'Отель в чёрном списке агентства', 1);
+
+INSERT INTO rule_conditions (rule_id, field, operator, value)
+VALUES (1, 'is_black', '=', '1');
